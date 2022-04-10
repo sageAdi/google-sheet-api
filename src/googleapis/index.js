@@ -18,22 +18,22 @@ const googleapis = async () => {
         const data = await googleSheet(auth);
         const header = data[0];
         // console.log(header);
-        let dataObject = [];
+        let objectArray = [];
         for (let i = 1; i < data.length; i++) {
-          let arrayData = {};
+          let dataObject = {};
           for (let j = 0; j < data[i].length; j++) {
-            arrayData[`${header[j]}`] = data[i][j];
+            dataObject[`${header[j]}`] = data[i][j];
           }
-          dataObject.push(arrayData);
+          dataObobjectArrayject.push(arrayData);
           // console.log(arrayData);
         }
-        // const body = data.filter((val) => val.equals(header));
-        // console.log(data.length);
-        fs.writeFileSync(
-          path.join(__dirname, "/data/sheet.json"),
-          JSON.stringify(dataObject)
-        );
-        res(dataObject);
+        const body = data.filter((val) => val!==(header));
+        console.log(body);
+        // fs.writeFileSync(
+        //   path.join(__dirname, "/data/sheet.json"),
+        //   JSON.stringify(objectArray)
+        // );
+        res(objectArray);
       }
     });
   });

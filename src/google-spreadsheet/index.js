@@ -13,12 +13,34 @@ const fetchSheet = async () => {
   });
 
   await doc.loadInfo(); // loads document properties and worksheets
-  console.log(doc.title);
-  const sheet = doc.sheetsByIndex[0]; // or use doc.sheetsById[id] or doc.sheetsByTitle[title]
-  const cells = await sheet.loadCells()
-  console.log(cells);
-  console.log(sheet.rowCount);
-  return doc.title;
+  // console.log(doc.sheetCount);
+  // const sheet = doc.sheetsByIndex[0]; // or use doc.sheetsById[id] or doc.sheetsByTitle[title]
+  // const cells = await sheet.loadCells();
+  // console.log(sheet.title);
+  // const rows = await sheet.getRows();
+  // console.log(rows[0]);
+  const sheetDetails = [];
+  for (let i = 0; i < doc.sheetCount; i++) {
+    const sheet = doc.sheetsByIndex[i];
+    await sheet.loadCells();
+    const sheetHeaders = [];
+    for (let j = 0; j < sheet.columnCount; j++) {
+      sheetHeaders.push(sheet.getCell(0, j).value);
+    }
+    const sheetDetail = {
+      title: sheet.title,
+      columnCount: sheet.columnCount,
+      rowCount: sheet.rowCount,
+      sheetHeaders,
+    };
+    sheetDetails.push(sheetDetail);
+  }
+  const excelDetails = {
+    excelTitle: doc.title,
+    sheetCount: doc.sheetCount,
+    sheetsDetails: sheetDetails,
+  };
+  return excelDetails;
 };
 
 module.exports = fetchSheet;
